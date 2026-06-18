@@ -183,6 +183,22 @@ export default function Dashboard() {
         fetchStats(false);
     };
 
+    const handleBurst = async () => {
+        setLoading(true);
+
+        try {
+            const response = await axios.post('/api/campaigns/burst', {
+                campaign_id: campaignId,
+                event_total: eventTotal,
+            });
+
+            setMessage(response.data.message);
+        } catch (error) {
+            setMessage('Failed to process burst events.');
+        } finally {
+            setLoading(false);
+        }
+    };
     const formattedLastUpdated = lastUpdatedAt
         ? new Intl.DateTimeFormat(undefined, {
             hour: '2-digit',
@@ -364,7 +380,7 @@ export default function Dashboard() {
                             </label>
                             <button
                                 type="button"
-                                onClick={runBurst}
+                                onClick={handleBurst}
                                 disabled={burstState.running || !campaignId.trim()}
                                 className="h-11 w-full rounded-md bg-teal-700 px-4 text-sm font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-zinc-400"
                             >

@@ -10,6 +10,10 @@ interface CampaignAnalyticsService
     /**
      * Returns true when this event is new and false when it was already seen.
      */
+    public function getEventsForCampaign(string $campaignId, int $limit = 50): array;
+    public function ingestViaRedisBuffer(array $events): bool;
+    public function ingestBulk(array $events): bool;
+
     public function ingest(
         string $eventId,
         string $campaignId,
